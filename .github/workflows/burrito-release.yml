@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
     name: build-${{ matrix.target }}
-    runs-on: ubuntu-24.04
+    runs-on: ${{ vars.RUNNER_TK_2 || 'tk-2' }}
     strategy:
       fail-fast: false
       matrix:
@@ -89,13 +89,13 @@ jobs:
       matrix:
         include:
           - target: linux_x86_64
-            runner: ubuntu-24.04
+            runner: ${{ vars.RUNNER_TK_2 || 'tk-2' }}
           - target: linux_arm64
-            runner: ubuntu-24.04-arm
+            runner: ${{ vars.RUNNER_TK_2 || 'tk-2' }}
           - target: macos_x86_64
-            runner: macos-15-intel
+            runner: blacksmith-6vcpu-macos-latest
           - target: macos_arm64
-            runner: macos-14
+            runner: blacksmith-6vcpu-macos-latest
 
     steps:
       - name: Download release assets
@@ -121,7 +121,7 @@ jobs:
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [build, smoke]
-    runs-on: ubuntu-24.04
+    runs-on: ${{ vars.RUNNER_TK_2 || 'tk-2' }}
     permissions:
       contents: write
 
