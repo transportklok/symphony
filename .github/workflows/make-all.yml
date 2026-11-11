@@ -8,7 +8,7 @@ on:
 
 jobs:
   make-all:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_TK_2 || 'tk-2' }}
     defaults:
       run:
         working-directory: elixir
